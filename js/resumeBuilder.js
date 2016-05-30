@@ -6,29 +6,29 @@ var bio = {
 	"name": "Tanat Iempreedee",
 	"role": "IT Business Analyst",
 	"contacts": {
-		"mobile": "+66 81 9399369",
+		"mobile": "+66 555-5555",
 		"email": "tanat.newz@gmail.com",
 		"github": "newzhaven",
 		"twitter": "@tanat",
-		"location": "Bangkok"
+		"location": "Huai Khwang, Bangkok"
 	},
 	"welcomeMessage": "Welcome!",
 	"skills": [
-		"Analysis", "Java", "SQL"
+		"Requirement Analysis", "Java", "SQL", "HTML", "Javascript"
 	],
 	"bioPic": "images/fry.jpg"
 };
 var education = {
 	"schools": [{
 		"name": "Thammasat University",
-		"location": "Bangkok",
+		"location": "Thammasat University - Rangsit Campus",
 		"degree": "BA",
 		"majors": ["CS"],
 		"dates": 2000,
 		"url": "http://example.com"
 	}, {
 		"name": "Bodindecha 2",
-		"location": "Bangkok",
+		"location": "333 Nawamin, Khlong Kum, Bueng Kum, Bangkok 10230, Thailand",
 		"degree": "High School",
 		"major": ["Math", "Science"],
 		"dates": 1996,
@@ -40,7 +40,7 @@ var education = {
 		"dates": 2016,
 		"url": "http://www.udacity.com/course/ud804"
 	}, {
-		"title": "Basic Statistics",
+		"title": "Intro to Statistics",
 		"school": "Udacity",
 		"dates": 2016,
 		"url": "http://example.com"
@@ -49,39 +49,74 @@ var education = {
 
 var work = {
 	"jobs": [{
-		"employer": "Ignify",
+		"employer": "Hitachi Solutions - Ignify",
 		"title": "Business Analyst",
-		"location": "Bangkok",
+		"location": "Chitlom, Bangkok",
 		"dates": "Oct 2015 - Jun 2016",
-		"description": "MS Dynamics AX"
+		"description": 
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus. \
+			Mauris cursus dui non sodales mattis. Aliquam erat volutpat. Aliquam felis lacus, \
+			aliquam vitae lorem a, condimentum laoreet tellus. Vestibulum ut mollis metus. \
+			Nullam consectetur lorem vel pulvinar facilisis. Aenean tincidunt elementum tortor. \
+			Sed quis eros vel dui efficitur ullamcorper. Quisque lectus libero, aliquet et ex vitae, \
+			mattis sollicitudin ante. Sed id sollicitudin urna, sed interdum ex."
 	}, {
 		"employer": "GoPomelo",
 		"title": "Transformation Project Lead",
-		"location": "Bangkok",
+		"location": "Ploenchit, Bangkok",
 		"dates": "Oct 2014 - Mar 2015",
-		"description": "Google Apps for Work"
+		"description": 
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus. \
+			Mauris cursus dui non sodales mattis. Aliquam erat volutpat. Aliquam felis lacus, \
+			aliquam vitae lorem a, condimentum laoreet tellus. Vestibulum ut mollis metus. \
+			Nullam consectetur lorem vel pulvinar facilisis. Aenean tincidunt elementum tortor. \
+			Sed quis eros vel dui efficitur ullamcorper. Quisque lectus libero, aliquet et ex vitae, \
+			mattis sollicitudin ante. Sed id sollicitudin urna, sed interdum ex."
 	}, {
 		"employer": "Brightstar",
 		"title": "IT Business Analyst",
-		"location": "Bangkok",
+		"location": "Chamchuri Square, Bangkok",
 		"dates": "Jan 2012 - Oct 2014",
-		"description": "Supply Chain Management systems"
+		"description": 
+			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus. \
+			Mauris cursus dui non sodales mattis. Aliquam erat volutpat. Aliquam felis lacus, \
+			aliquam vitae lorem a, condimentum laoreet tellus. Vestibulum ut mollis metus. \
+			Nullam consectetur lorem vel pulvinar facilisis. Aenean tincidunt elementum tortor. \
+			Sed quis eros vel dui efficitur ullamcorper. Quisque lectus libero, aliquet et ex vitae, \
+			mattis sollicitudin ante. Sed id sollicitudin urna, sed interdum ex."
 	}]
 };
-var project = {
+var projects = {
 	"projects": [{
 		"title": "DTAC",
-		"dates": "2015",
-		"description": "Serialized SCM",
-		"images": []
+		"dates": "Oct 2015 - Mar 2016",
+		"description": "Serialized SCM - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus.",
+		"images": ["images/197x148.gif", "images/197x148.gif"]
 	}, {
 		"title": "EWS",
 		"dates": "2015",
-		"description": "Google Apps Deployment",
-		"images": []
+		"description": "Google Apps Deployment - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus.",
+		"images": ["images/197x148.gif", "images/197x148.gif"]
 	}]
 };
 
+projects.display = function() {
+	this.projects.forEach(function(p) {
+		$('#projects').append(HTMLprojectStart);
+		var formattedProjectTitle = HTMLprojectTitle.replace('%data%', p.title);
+		var formattedProjectDates = HTMLprojectDates.replace('%data%', p.dates);
+		var formattedProjectDescription = HTMLprojectDescription.replace('%data%', p.description);
+
+		$('.project-entry:last').append(formattedProjectTitle);
+		$('.project-entry:last').append(formattedProjectDates);
+		$('.project-entry:last').append(formattedProjectDescription);
+
+		p.images.forEach(function(img) {
+			var formattedProjectImage = HTMLprojectImage.replace('%data%', img);
+			$('.project-entry:last').append(formattedProjectImage)
+		});
+	});
+}
 
 
 var formattedName = HTMLheaderName.replace("%data%", bio.name);
@@ -138,20 +173,16 @@ function displayWork() {
 }
 
 displayWork();
+projects.display();
 
-// for(i in work.jobs) {
-// 	//work.jobs[i]
-// 	$("#workExperience").append(HTMLworkStart);
-// 	formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[i].employer);
-// 	formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[i].title);
-// 	$(".work-entry:last").append(formattedEmployer + formattedTitle);
-// }
+// Display map
+$('#mapDiv').append(googleMap);
 
-/* Recommendation for using for-in
-myObj = {'firstName':'Ada','lastName':'Lovelace'};
-for (var key in myObj) {
-    if (myObj.hasOwnProperty(key)) {
-        console.log(myObj[key]);
-    }
-}
-*/
+/* Internationalization Quiz
+$('#main').append(internationalizeButton);
+function inName(name) {
+	var names = name.trim().split(' ');
+	var firstName = names[0].slice(0,1).toUpperCase() + names[0].slice(1).toLowerCase();
+	var lastName = names[1].toUpperCase();
+	return firstName + ' ' + lastName;
+}*/
