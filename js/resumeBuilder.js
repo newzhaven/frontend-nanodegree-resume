@@ -14,45 +14,118 @@ var bio = {
 	},
 	"welcomeMessage": "Welcome!",
 	"skills": [
-		"Requirement Analysis", "Java", "SQL", "HTML", "Javascript"
+		"Requirement Analysis", "Java", "SQL", "HTML", "CSS", "Javascript"
 	],
-	"bioPic": "images/fry.jpg"
+	"biopic": "images/fry.jpg"
 };
+
+bio.display = function() {
+	var formattedName = HTMLheaderName.replace("%data%", bio.name);
+	var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+	var formattedContacts = {
+		"mobile": HTMLmobile.replace("%data%", bio.contacts.mobile),
+		"email": HTMLemail.replace("%data%", bio.contacts.email),
+		"github": HTMLgithub.replace("%data%", bio.contacts.github),
+		"twitter": HTMLtwitter.replace("%data%", bio.contacts.twitter),
+		"location": HTMLlocation.replace("%data%", bio.contacts.location)
+	};
+	var formattedBioPic = HTMLbioPic.replace("%data%", bio.biopic);
+	var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+
+	//Rendering Bio
+	$("#header").prepend(formattedRole);
+	$("#header").prepend(formattedName);
+
+	$("#topContacts").append(formattedContacts.mobile);
+	$("#topContacts").append(formattedContacts.email);
+	$("#topContacts").append(formattedContacts.github);
+	$("#topContacts").append(formattedContacts.twitter);
+	$("#topContacts").append(formattedContacts.location);
+
+	$("#header").append(formattedBioPic);
+	$("#header").append(formattedWelcomeMsg);
+
+	// Displaying skills
+	if(bio.skills != null && bio.skills.length > 0) {
+		$("#header").append(HTMLskillsStart);
+		for(i = 0; i < bio.skills.length; i++) {
+			var formattedSkill = HTMLskills.replace("%data%", bio.skills[i])
+		 	$("#skills").append(formattedSkill);
+		}
+	}
+}
+
 var education = {
 	"schools": [{
 		"name": "Thammasat University",
-		"location": "Thammasat University - Rangsit Campus",
-		"degree": "BA",
+		"location": "Klong Luang, Pathum Thani",
+		"degree": "B.Sc.",
 		"majors": ["CS"],
 		"dates": 2000,
 		"url": "http://example.com"
 	}, {
-		"name": "Bodindecha 2",
-		"location": "333 Nawamin, Khlong Kum, Bueng Kum, Bangkok 10230, Thailand",
+		"name": "High school",
+		"location": "Bueng Kum, Bangkok",
 		"degree": "High School",
-		"major": ["Math", "Science"],
+		"majors": ["Science", "Math"],
 		"dates": 1996,
 		"url": "http://example.com"
 	}],
 	"onlineCourses": [{
 		"title": "Javascript Basic",
 		"school": "Udacity",
-		"dates": 2016,
+		"date": 2016,
 		"url": "http://www.udacity.com/course/ud804"
 	}, {
-		"title": "Intro to Statistics",
-		"school": "Udacity",
-		"dates": 2016,
+		"title": "R Programming",
+		"school": "Coursera",
+		"date": 2015,
 		"url": "http://example.com"
 	}]
 };
 
+education.display = function() {
+	// Display Schools
+	this.schools.forEach(function(school) {
+		var formattedSchoolName = HTMLschoolName.replace("%data%", school.name);
+		var formattedSchoolDegree = HTMLschoolDegree.replace("%data%", school.degree);
+		var formattedSchoolDates = HTMLschoolDates.replace("%data%", school.dates);
+		var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", school.location);
+		var formattedSchoolMajor = HTMLschoolMajor.replace("%data%", school.majors.join(", "));
+
+		$("#education").append(HTMLschoolStart);
+		$(".education-entry:last").append(formattedSchoolName);
+		$(".education-entry:last").append(formattedSchoolDegree);
+		$(".education-entry:last").append(formattedSchoolDates);
+		$(".education-entry:last").append(formattedSchoolLocation);
+		$(".education-entry:last").append(formattedSchoolMajor);
+	});
+	// Display Online Courses
+	if(this.onlineCourses != null && this.onlineCourses.length > 0) {
+		$("#education").append(HTMLonlineClasses);
+	}
+	this.onlineCourses.forEach(function(course) {
+		var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", course.title);
+		var formattedOnlineSchool = HTMLonlineSchool.replace("%data%", course.school);
+		var formattedOnlineDates = HTMLonlineDates.replace("%data%", course.date);
+		var formattedOnlineURL = HTMLonlineURL.replace("%data%", course.url);
+		
+		$("#education").append(HTMLschoolStart);
+		$(".education-entry:last").append(formattedOnlineTitle);
+		$(".education-entry:last").append(formattedOnlineSchool);
+		$(".education-entry:last").append(formattedOnlineDates);
+		$(".education-entry:last").append(formattedOnlineURL);
+	});
+
+	
+}
+
 var work = {
 	"jobs": [{
 		"employer": "Hitachi Solutions - Ignify",
-		"title": "Business Analyst",
-		"location": "Chitlom, Bangkok",
-		"dates": "Oct 2015 - Jun 2016",
+		"title": "IT Business Analyst",
+		"location": "Chit Lom, Bangkok",
+		"dates": "Oct 2015 - Present",
 		"description": 
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus. \
 			Mauris cursus dui non sodales mattis. Aliquam erat volutpat. Aliquam felis lacus, \
@@ -75,7 +148,7 @@ var work = {
 	}, {
 		"employer": "Brightstar",
 		"title": "IT Business Analyst",
-		"location": "Chamchuri Square, Bangkok",
+		"location": "Sam Yan, Pathum Wan, Bangkok",
 		"dates": "Jan 2012 - Oct 2014",
 		"description": 
 			"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam id dignissim purus. \
@@ -86,6 +159,24 @@ var work = {
 			mattis sollicitudin ante. Sed id sollicitudin urna, sed interdum ex."
 	}]
 };
+
+work.display = function() {
+	this.jobs.forEach(function(job) {
+		$("#workExperience").append(HTMLworkStart);
+		var formattedWorkEmployer = HTMLworkEmployer.replace("%data%", job.employer);
+		var formattedWorkTitle = HTMLworkTitle.replace("%data%", job.title);
+		var formattedWorkDates = HTMLworkDates.replace('%data%', job.dates);
+		var formattedWorkLocation = HTMLworkLocation.replace('%data%', job.location);
+		var formattedWorkDescription = HTMLworkDescription.replace('%data%', job.description);
+
+		$(".work-entry:last").append(formattedWorkEmployer + formattedWorkTitle);
+		$(".work-entry:last").append(formattedWorkDates);
+		$(".work-entry:last").append(formattedWorkLocation);
+		$(".work-entry:last").append(formattedWorkDescription);
+
+	});
+}
+
 var projects = {
 	"projects": [{
 		"title": "DTAC",
@@ -119,61 +210,14 @@ projects.display = function() {
 }
 
 
-var formattedName = HTMLheaderName.replace("%data%", bio.name);
-var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-var formattedContacts = {
-	"mobile": HTMLmobile.replace("%data%", bio.contacts.mobile),
-	"email": HTMLemail.replace("%data%", bio.contacts.email),
-	"github": HTMLgithub.replace("%data%", bio.contacts.github),
-	"twitter": HTMLtwitter.replace("%data%", bio.contacts.twitter),
-	"location": HTMLlocation.replace("%data%", bio.contacts.location)
-};
-//var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
-var formattedBioPic = HTMLbioPic.replace("%data%", bio.bioPic);
-var formattedWelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+/************** 
+	Rendering 
+***************/
 
-
-
-//Rendering Name and Role
-$("#header").prepend(formattedRole);
-$("#header").prepend(formattedName);
-
-$("#topContacts").append(formattedContacts.mobile);
-$("#topContacts").append(formattedContacts.email);
-$("#topContacts").append(formattedContacts.github);
-$("#topContacts").append(formattedContacts.twitter);
-$("#topContacts").append(formattedContacts.location);
-
-$("#header").append(formattedBioPic);
-$("#header").append(formattedWelcomeMsg);
-
-// Displaying skilss
-if(bio.skills != null && bio.skills.length > 0) {
-	$("#header").append(HTMLskillsStart);
-	for(i = 0; i < bio.skills.length; i++) {
-		var formattedSkill = HTMLskills.replace("%data%", bio.skills[i])
-	 	$("#skills").append(formattedSkill);
-	}
-}
-function displayWork() {
-	work.jobs.forEach(function(job) {
-		$("#workExperience").append(HTMLworkStart);
-		var formattedWorkEmployer = HTMLworkEmployer.replace("%data%", job.employer);
-		var formattedWorkTitle = HTMLworkTitle.replace("%data%", job.title);
-		var formattedWorkDates = HTMLworkDates.replace('%data%', job.dates);
-		var formattedWorkLocation = HTMLworkLocation.replace('%data%', job.location);
-		var formattedWorkDescription = HTMLworkDescription.replace('%data%', job.description);
-
-		$(".work-entry:last").append(formattedWorkEmployer + formattedWorkTitle);
-		$(".work-entry:last").append(formattedWorkDates);
-		$(".work-entry:last").append(formattedWorkLocation);
-		$(".work-entry:last").append(formattedWorkDescription);
-
-	});
-}
-
-displayWork();
+bio.display();
+work.display();
 projects.display();
+education.display();
 
 // Display map
 $('#mapDiv').append(googleMap);
